@@ -1,0 +1,61 @@
+<div id="overlay">
+  <input style="z-index: 999; width: 90%;" type="text" value="{{ taskName }}" class="form-control mod-center" #tasktUpdate>
+  <div class="mod-center" style="margin-top:50px;">
+    <button type="button" style="margin-left: 10px;" class="btn btn-primary" onclick="off()" (click)="updateTask(tasktUpdate)" id="update">Update</button>
+    <button type="button" style="margin-left: 10px;" class="btn btn-danger" onclick="off()" id="update">Cancel</button>
+  </div>
+</div>
+<div class="jumbotron">
+  <h4 class="text-center">To Do List</h4>
+</div>
+<div class="input-group">
+  <input type="text" class="form-control" #itemTitle>
+  <div class="input-group-addon hover-cursor" (click)="addTask(itemTitle)">
+    <i class="fa fa-plus-circle"></i>
+  </div>
+</div>
+<h4 class="text-center">Pending</h4>
+<div style="margin:5px 0px">
+  <ul class="list-group" >
+    <div *ngFor="let post of restItems">
+      <li class="list-group-item" *ngIf="post.TaskStatus == 0">
+        <span class="hover-cursor text-info">
+          <i class="fas fa-circle"></i>
+        </span>
+        {{post.TaskName}}
+        <span class="hover-cursor pull-right padding-left" title="Delete Task" (click)="deleteTask(post.TaskId)">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+        <span class="hover-cursor pull-right padding-left" title="Mark as Done" (click)="setToDone(post.TaskId)">
+          <i class="fas fa-check"></i>
+        </span>
+        <span class="hover-cursor pull-right padding-left" title="Edit Task" onclick="on()" (click)="editTask(post.TaskId, post.TaskName)">
+            <i class="fas fa-edit"></i>
+          </span>
+      </li>
+    </div>
+  </ul>
+</div>
+<h4 class="text-center">Completed</h4>
+<div style="margin:5px 0px">
+    <ul class="list-group" >
+      <div *ngFor="let post of restItems">
+        <li class="list-group-item" *ngIf="post.TaskStatus == 1">   
+          <span class="hover-cursor text-success">
+            <i class="fas fa-circle"></i>
+          </span>
+          {{post.TaskName}}
+          <span class="hover-cursor pull-right padding-left" title="Delete Task" (click)="deleteTask(post.TaskId)">
+            <i class="fas fa-trash-alt"></i>
+          </span>
+          <span class="hover-cursor pull-right padding-left" title="Mark as Pending" (click)="setToPending(post.TaskId)">
+            <i class="fas fa-undo"></i>
+          </span>
+          <span class="hover-cursor pull-right padding-left" title="Edit Task" onclick="on()" (click)="editTask(post.TaskId, post.TaskName)">
+            <i class="fas fa-edit"></i>
+          </span>
+         
+        </li>
+      </div>
+    </ul>
+  </div>
