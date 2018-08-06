@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from './shared/todo.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-todo',
@@ -16,9 +17,13 @@ export class TodoComponent implements OnInit {
   closeResult: string;
   taskId: string;
   taskName: string;
-  constructor(private toDoService: TodoService, private http: HttpClient) { }
+  userName: string;
+  userId: any;
+  constructor(private toDoService: TodoService, private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit() {
+    this.userName = this.auth.getName();
+    this.userId = this.auth.getUserId();
     this.getToDoList();
   }
 
@@ -34,9 +39,15 @@ export class TodoComponent implements OnInit {
 
   // Rest Items Service: Read all REST Items
   restItemsServiceGetRestItems() {
+    // this.apiUrl = "http://localhost/sites/todoold/public/api/tasklist";
+    // return this.http
+    //   .get<any[]>(this.apiUrl)
+    //   .pipe(map(data => data));
     this.apiUrl = "http://localhost/sites/todoold/public/api/tasklist";
     return this.http
-      .get<any[]>(this.apiUrl)
+      .post<any[]>(this.apiUrl,{
+        UserId : this.userId,
+      })
       .pipe(map(data => data));
   }
 
@@ -44,7 +55,9 @@ export class TodoComponent implements OnInit {
     this.apiUrl = "http://localhost/sites/todoold/public/api/tasklist/create";
     return this.http.post<any[]>(this.apiUrl, {
       TaskName : itemTitle.value,
-      TaskStatus : 0
+      TaskStatus : 0,
+      UserId : this.userId,
+
     }).subscribe(
       data => {
         this.getToDoList();
