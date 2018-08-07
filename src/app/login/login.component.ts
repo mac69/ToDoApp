@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(user: NgForm) {
+    console.log("sod");
     this.apiUrl = "http://localhost/sites/todoold/public/api/auth/login";
     return this.http.post<any[]>(this.apiUrl, {
       email : user.value.loginEmail,
@@ -38,9 +39,12 @@ export class LoginComponent implements OnInit {
           this.auth.sendToken(user.value.loginEmail);
           this.auth.setName(data["name"]);
           this.auth.setUserId(data["userId"]);
-          console.log(data["name"]);
-          console.log(data["userId"]);
+          // console.log(data["name"]);
+          // console.log(data["userId"]);
           this.myRoute.navigate(["todolist"]);
+        } else {
+          this.loggedin = false;
+          console.log(this.loggedin);
         }
       },
       error => {

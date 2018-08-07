@@ -138,4 +138,8 @@ export class TodoComponent implements OnInit {
     );
   }
 
+  logout() {
+    this.auth.logout();
+  }
+
 }
