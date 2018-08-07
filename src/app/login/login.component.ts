@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
   constructor(private http: HttpClient, private auth: AuthService, private myRoute: Router) { }
 
   ngOnInit() {
+    if (this.auth.isLoggednIn()) {
+      this.myRoute.navigate(["todolist"]);
+    }
   }
 
   login(user: NgForm) {
@@ -42,6 +45,7 @@ export class LoginComponent implements OnInit {
           // console.log(data["name"]);
           // console.log(data["userId"]);
           this.myRoute.navigate(["todolist"]);
+          // console.log(this.auth.isLoggednIn());
         } else {
           this.loggedin = false;
           console.log(this.loggedin);
